@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multimedia y Realidad Mixta · Ingeniería de Sistemas UFPS</title>
+<meta name="description" content="Objetos Virtuales de Aprendizaje, videos y podcast producidos en la Electiva Multimedia y Realidad Mixta — Ingeniería de Sistemas, UFPS.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --rojo: #BC0017;
+    --rojo-oscuro: #7E0010;
+    --rojo-suave: #FBE7E9;
+    --negro: #17181A;
+    --gris: #818386;
+    --gris-linea: #E2E1DF;
+    --gris-fondo: #F5F4F2;
+    --blanco: #FFFFFF;
+    --radio: 4px;
+    --maxw: 1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+  body{
+    margin:0;
+    font-family:'Inter', system-ui, sans-serif;
+    color:var(--negro);
+    background:var(--blanco);
+    line-height:1.55;
+  }
+  h1,h2,h3,.brand{
+    font-family:'Montserrat', sans-serif;
+    font-weight:800;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+
+  /* ---------- Header ---------- */
+  header.site{
+    position:sticky; top:0; z-index:50;
+    background:var(--blanco);
+    border-bottom:1px solid var(--gris-linea);
+  }
+  .nav-row{
+    display:flex; align-items:center; justify-content:space-between;
+    height:72px;
+  }
+  .brand{
+    display:flex; align-items:center; gap:12px;
+    font-size:16px; color:var(--negro); text-decoration:none;
+  }
+  .brand-mark{
+    width:38px; height:38px; border-radius:50%;
+    background:var(--rojo);
+    color:var(--blanco);
+    display:flex; align-items:center; justify-content:center;
+    font-size:14px; font-weight:800; flex:none;
+  }
+  .brand-text{display:flex; flex-direction:column; line-height:1.2;}
+  .brand-text small{font-family:'Inter'; font-weight:500; font-size:11.5px; color:var(--gris); letter-spacing:.02em;}
+  nav.links{display:flex; gap:28px;}
+  nav.links a{
+    font-size:14.5px; font-weight:600; text-decoration:none; color:var(--negro);
+    padding:6px 2px; border-bottom:2px solid transparent;
+  }
+  nav.links a:hover{border-bottom-color:var(--rojo);}
+  .nav-toggle{display:none; background:none; border:none; cursor:pointer; padding:8px;}
+  .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after{
+    content:''; display:block; width:22px; height:2px; background:var(--negro); position:relative;
+  }
+  .nav-toggle span::before{position:absolute; top:-7px;}
+  .nav-toggle span::after{position:absolute; top:7px;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:76px 0 56px;
+    border-bottom:1px solid var(--gris-linea);
+  }
+  .hero .eyebrow{
+    color:var(--rojo); font-weight:700; font-size:14px; margin:0 0 14px;
+  }
+  .hero h1{
+    font-size:clamp(32px, 4.6vw, 50px);
+    line-height:1.08;
+    margin:0 0 22px;
+    max-width:15ch;
+  }
+  .hero p.lead{
+    font-size:18px; color:#40403f; max-width:62ch; margin:0 0 32px;
+  }
+  .hero-actions{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:13px 22px; border-radius:var(--radio);
+    font-weight:700; font-size:14.5px; text-decoration:none;
+    border:1.5px solid transparent; cursor:pointer;
+  }
+  .btn-primary{background:var(--rojo); color:var(--blanco);}
+  .btn-primary:hover{background:var(--rojo-oscuro);}
+  .btn-outline{border-color:var(--negro); color:var(--negro);}
+  .btn-outline:hover{background:var(--negro); color:var(--blanco);}
+
+  .stats{
+    display:grid; grid-template-columns:repeat(3,1fr);
+    border-top:1px solid var(--gris-linea);
+    margin-top:48px;
+  }
+  .stat{
+    padding:26px 4px 4px; border-left:1px solid var(--gris-linea);
+    cursor:pointer; background:none; text-align:left; font:inherit; color:inherit;
+  }
+  .stat:first-child{border-left:none; padding-left:0;}
+  .stat .num{
+    font-family:'Montserrat'; font-weight:800; font-size:38px; color:var(--negro);
+    display:block;
+  }
+  .stat .label{font-size:14px; color:var(--gris); font-weight:500;}
+  .stat:hover .num{color:var(--rojo);}
+
+  /* ---------- Filter bar ---------- */
+  .filterbar{
+    position:sticky; top:72px; z-index:40;
+    background:var(--gris-fondo);
+    border-bottom:1px solid var(--gris-linea);
+    padding:16px 0;
+  }
+  .filterbar-inner{display:flex; gap:14px; align-items:center; flex-wrap:wrap;}
+  .tabs{display:flex; gap:8px; flex-wrap:wrap;}
+  .tab{
+    border:1.5px solid var(--gris-linea); background:var(--blanco);
+    padding:9px 16px; border-radius:999px; font-weight:600; font-size:13.5px;
+    cursor:pointer; color:var(--negro);
+  }
+  .tab.active{background:var(--negro); border-color:var(--negro); color:var(--blanco);}
+  .tab[data-cat="ova"].active{background:var(--rojo); border-color:var(--rojo);}
+  .search-wrap{margin-left:auto; position:relative; min-width:220px; flex:1; max-width:320px;}
+  .search-wrap input{
+    width:100%; padding:10px 14px 10px 36px; border-radius:999px;
+    border:1.5px solid var(--gris-linea); font-family:'Inter'; font-size:13.5px;
+    background:var(--blanco);
+  }
+  .search-wrap input:focus{outline:2px solid var(--rojo); outline-offset:1px;}
+  .search-wrap svg{position:absolute; left:12px; top:50%; transform:translateY(-50%); opacity:.5;}
+  .result-count{font-size:13px; color:var(--gris); margin-top:10px;}
+
+  /* ---------- Sections ---------- */
+  section.category{padding:56px 0 20px;}
+  .cat-head{
+    display:flex; align-items:flex-end; justify-content:space-between; gap:20px;
+    margin-bottom:28px; flex-wrap:wrap;
+    border-bottom:1px solid var(--gris-linea); padding-bottom:18px;
+  }
+  .cat-head h2{font-size:26px; margin:0 0 6px;}
+  .cat-head p{margin:0; color:var(--gris); font-size:14.5px; max-width:52ch;}
+  .cat-icon{
+    width:44px; height:44px; border-radius:50%; flex:none;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .cat-title-row{display:flex; align-items:center; gap:14px;}
+
+  .grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
+    gap:18px;
+  }
+  .card{
+    border:1px solid var(--gris-linea); border-left:4px solid var(--negro);
+    border-radius:var(--radio); padding:22px 20px;
+    text-decoration:none; color:var(--negro);
+    display:flex; flex-direction:column; gap:12px;
+    transition:border-color .15s, transform .15s, box-shadow .15s;
+    background:var(--blanco);
+  }
+  .card:hover{
+    border-color:var(--negro); transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(23,24,26,0.08);
+  }
+  section[data-cat="ova"] .card{border-left-color:var(--rojo);}
+  section[data-cat="podcast"] .card{border-left-color:var(--gris);}
+  .card-top{display:flex; align-items:flex-start; justify-content:space-between; gap:10px;}
+  .card-icon{
+    width:34px; height:34px; border-radius:50%; flex:none;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--gris-fondo);
+  }
+  section[data-cat="ova"] .card-icon{background:var(--rojo-suave); color:var(--rojo);}
+  section[data-cat="video"] .card-icon{background:#EDEDED; color:var(--negro);}
+  section[data-cat="podcast"] .card-icon{background:#EFEFEF; color:var(--gris);}
+  .tag{
+    font-size:11px; font-weight:700; color:var(--gris);
+    border:1px solid var(--gris-linea); border-radius:999px;
+    padding:4px 10px; white-space:nowrap; height:fit-content;
+  }
+  .card h3{font-family:'Inter'; font-weight:700; font-size:16px; margin:0; line-height:1.3;}
+  .card .desc{font-size:13.5px; color:var(--gris); margin:0; flex:1;}
+  .card .go{
+    font-size:13.5px; font-weight:700; color:var(--rojo);
+    display:flex; align-items:center; gap:6px;
+  }
+  .card .go svg{transition:transform .15s;}
+  .card:hover .go svg{transform:translateX(3px);}
+
+  .empty{
+    padding:40px 0; text-align:center; color:var(--gris); font-size:14px; display:none;
+  }
+
+  /* ---------- Repositorio ---------- */
+  .repo{
+    margin:64px 0; padding:40px;
+    background:var(--negro); color:var(--blanco);
+    border-radius:6px;
+    display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;
+  }
+  .repo h2{font-size:22px; margin:0 0 8px; color:var(--blanco);}
+  .repo p{margin:0; color:#C9C9C9; font-size:14.5px; max-width:48ch;}
+  .repo .btn-primary{background:var(--rojo);}
+
+  /* ---------- Footer ---------- */
+  footer{
+    border-top:1px solid var(--gris-linea);
+    padding:44px 0 34px;
+    background:var(--gris-fondo);
+  }
+  .footer-grid{
+    display:grid; grid-template-columns:1.4fr 1fr; gap:32px;
+  }
+  footer .brand{margin-bottom:14px;}
+  footer p{color:var(--gris); font-size:13.5px; max-width:52ch; margin:0;}
+  footer h4{font-size:13px; text-transform:none; margin:0 0 12px; color:var(--negro); font-family:'Montserrat'; font-weight:700;}
+  footer ul{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:9px;}
+  footer ul a{font-size:13.5px; text-decoration:none; color:var(--gris);}
+  footer ul a:hover{color:var(--rojo);}
+  .bottom-line{
+    border-top:1px solid var(--gris-linea); margin-top:32px; padding-top:18px;
+    font-size:12.5px; color:var(--gris);
+  }
+
+  @media (max-width: 860px){
+    nav.links{
+      position:absolute; top:72px; left:0; right:0; background:var(--blanco);
+      flex-direction:column; padding:12px 28px 20px; gap:4px; border-bottom:1px solid var(--gris-linea);
+      display:none;
+    }
+    nav.links.open{display:flex;}
+    nav.links a{padding:10px 0;}
+    .nav-toggle{display:block;}
+    .stats{grid-template-columns:1fr; }
+    .stat{border-left:none; border-top:1px solid var(--gris-linea); padding:18px 0 0;}
+    .stat:first-child{border-top:none;}
+    .filterbar{top:72px;}
+    .search-wrap{max-width:none; width:100%; order:3;}
+    .footer-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nav-row">
+    <a href="#inicio" class="brand">
+      <span class="brand-mark">IS</span>
+      <span class="brand-text">Ingeniería de Sistemas<small>UFPS · Electiva Multimedia y Realidad Mixta</small></span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false"><span></span></button>
+    <nav class="links" id="navLinks">
+      <a href="#inicio">Inicio</a>
+      <a href="#ova">OVA</a>
+      <a href="#video">Videos</a>
+      <a href="#podcast">Podcast</a>
+      <a href="#repositorio">Repositorio</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="inicio">
+  <div class="wrap">
+    <p class="eyebrow">Ingeniería de Sistemas — UFPS</p>
+    <h1>Productos de la Electiva Multimedia y Realidad Mixta</h1>
+    <p class="lead">Un recorrido por los Objetos Virtuales de Aprendizaje, videos y podcast que estudiantes del programa produjeron para explicar, de forma visual y sonora, temas centrales de la Ingeniería de Sistemas.</p>
+    <div class="hero-actions">
+      <a href="#ova" class="btn btn-primary">Explorar los recursos</a>
+      <a href="#repositorio" class="btn btn-outline">Ver repositorio completo</a>
+    </div>
+
+    <div class="stats">
+      <button class="stat" data-jump="ova">
+        <span class="num" data-count="5">0</span>
+        <span class="label">Objetos Virtuales de Aprendizaje</span>
+      </button>
+      <button class="stat" data-jump="video">
+        <span class="num" data-count="10">0</span>
+        <span class="label">Videos educativos</span>
+      </button>
+      <button class="stat" data-jump="podcast">
+        <span class="num" data-count="8">0</span>
+        <span class="label">Episodios de podcast</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<div class="filterbar">
+  <div class="wrap filterbar-inner">
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-cat="todos">Todos</button>
+      <button class="tab" data-cat="ova">OVA</button>
+      <button class="tab" data-cat="video">Videos</button>
+      <button class="tab" data-cat="podcast">Podcast</button>
+    </div>
+    <div class="search-wrap">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Buscar por título…" aria-label="Buscar recurso">
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section class="category" id="ova" data-cat="ova">
+    <div class="cat-head">
+      <div class="cat-title-row">
+        <div class="cat-icon" style="background:var(--rojo-suave); color:var(--rojo);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <div>
+          <h2>Objetos Virtuales de Aprendizaje</h2>
+          <p>Módulos interactivos construidos con Articulate y sitios web propios para estudiar un tema a tu ritmo.</p>
+        </div>
+      </div>
+    </div>
+    <div class="grid" id="grid-ova"></div>
+    <p class="empty" id="empty-ova">No se encontraron OVA con ese término de búsqueda.</p>
+  </section>
+
+  <section class="category" id="video" data-cat="video">
+    <div class="cat-head">
+      <div class="cat-title-row">
+        <div class="cat-icon" style="background:#EDEDED; color:var(--negro);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+        <div>
+          <h2>Videos</h2>
+          <p>Explicaciones grabadas sobre programación, redes, seguridad y otros temas del programa, alojadas en YouTube y Drive.</p>
+        </div>
+      </div>
+    </div>
+    <div class="grid" id="grid-video"></div>
+    <p class="empty" id="empty-video">No se encontraron videos con ese término de búsqueda.</p>
+  </section>
+
+  <section class="category" id="podcast" data-cat="podcast">
+    <div class="cat-head">
+      <div class="cat-title-row">
+        <div class="cat-icon" style="background:#EFEFEF; color:var(--gris);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+        </div>
+        <div>
+          <h2>Podcast</h2>
+          <p>Episodios en audio para escuchar mientras estudias, sobre ética, bases de datos, sistemas operativos y más.</p>
+        </div>
+      </div>
+    </div>
+    <div class="grid" id="grid-podcast"></div>
+    <p class="empty" id="empty-podcast">No se encontraron episodios con ese término de búsqueda.</p>
+  </section>
+
+  <section class="repo" id="repositorio">
+    <div>
+      <h2>Repositorio de recursos multimedia</h2>
+      <p>Todos los OVA, videos y podcast reunidos en una sola carpeta de Google Drive, por si prefieres descargarlos o revisarlos en bloque.</p>
+    </div>
+    <a class="btn btn-primary" href="https://drive.google.com/drive/folders/1DAWPWpndFFGIYLFtRYmJhv6cTVN5OHMD" target="_blank" rel="noopener">Abrir repositorio</a>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <a href="#inicio" class="brand">
+        <span class="brand-mark">IS</span>
+        <span class="brand-text">Ingeniería de Sistemas<small>UFPS · Cúcuta</small></span>
+      </a>
+      <p>Productos creados en la Electiva Multimedia y Realidad Mixta del programa de Ingeniería de Sistemas, Universidad Francisco de Paula Santander.</p>
+    </div>
+    <div>
+      <h4>Categorías</h4>
+      <ul>
+        <li><a href="#ova">Objetos Virtuales de Aprendizaje</a></li>
+        <li><a href="#video">Videos</a></li>
+        <li><a href="#podcast">Podcast</a></li>
+        <li><a href="#repositorio">Repositorio completo</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap bottom-line">
+    Programa de Ingeniería de Sistemas · Universidad Francisco de Paula Santander · Cúcuta, Colombia
+  </div>
+</footer>
+
+<script>
+  const iconGo = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+
+  const resources = [
+    // OVA
+    {cat:'ova', title:'Estructura Curricular y Estrategias Pedagógicas', desc:'Recorrido por la estructura curricular y las estrategias pedagógicas del programa.', tag:'Articulate', url:'https://rodriguezraulia2025.github.io/ingsys3/'},
+    {cat:'ova', title:'Programación en Java', desc:'Módulo introductorio a la programación orientada a objetos con Java.', tag:'Sitio web', url:'https://ingesysmedia.github.io/poo2/'},
+    {cat:'ova', title:'Proyecto Educativo del Programa (PEP)', desc:'Presenta los lineamientos y el propósito del PEP de Ingeniería de Sistemas.', tag:'Sitio web', url:'https://rodriguezraulia2025.github.io/ovapep/#/'},
+    {cat:'ova', title:'Componentes de Ingeniería de Sistemas', desc:'Explica los componentes que conforman el plan de estudios del programa.', tag:'Articulate', url:'https://rodriguezraulia2025.github.io/ingsys3/'},
+    {cat:'ova', title:'IA para Ingeniería de Sistemas', desc:'Introducción a la inteligencia artificial aplicada a la ingeniería de sistemas.', tag:'Articulate', url:'https://rodriguezraulia2025.github.io/ovapep/#/'},
+
+    // Videos
+    {cat:'video', title:'Piratería y Derechos de Autor', desc:'Qué es la piratería digital y cómo protege la ley los derechos de autor.', tag:'YouTube', url:'https://www.youtube.com/watch?v=i9FF02ZcWx8'},
+    {cat:'video', title:'Teoría de la Computación', desc:'Conceptos base de autómatas y teoría de la computación.', tag:'YouTube', url:'https://www.youtube.com/watch?v=yof8ICLd-uc'},
+    {cat:'video', title:'MongoDB', desc:'Primer acercamiento a las bases de datos no relacionales con MongoDB.', tag:'YouTube', url:'https://www.youtube.com/watch?v=eevnrKSjono'},
+    {cat:'video', title:'Internet de las Cosas', desc:'Qué es el Internet de las Cosas (IoT) y cómo se aplica hoy.', tag:'Drive', url:'https://drive.google.com/file/d/1dOfjjYD3hKOOVWg82irgrk1W7DE1JpwL/view'},
+    {cat:'video', title:'Programación', desc:'Fundamentos generales de programación para empezar a escribir código.', tag:'YouTube', url:'https://www.youtube.com/watch?v=3yUN9s0uVPg'},
+    {cat:'video', title:'Modelo OSI y TCP/IP', desc:'Comparación entre el modelo OSI y el modelo TCP/IP en redes.', tag:'YouTube', url:'https://www.youtube.com/watch?v=iDyfWueXk7Q'},
+    {cat:'video', title:'Método de la Burbuja', desc:'Explicación paso a paso del algoritmo de ordenamiento burbuja.', tag:'Drive', url:'https://drive.google.com/file/d/1XISmcA8_bDKZWjQPulNXT1JEztPpwP8w/view?usp=drive_link'},
+    {cat:'video', title:'Seguridad Informática', desc:'Riesgos comunes y buenas prácticas de seguridad informática.', tag:'Drive', url:'https://drive.google.com/file/d/1x5Ph1ZkH3-yTldlVfPk-EPlKkAcHjMWA/view?usp=drive_link'},
+    {cat:'video', title:'Piratería y Derechos de Autor (extendido)', desc:'Segunda producción sobre piratería y derechos de autor.', tag:'Drive', url:'https://drive.google.com/file/d/1tNrAVaKFmVQR2-qVZzQOOczuU48T5s05/view?usp=drive_link'},
+    {cat:'video', title:'Introducción a MongoDB', desc:'Primeros pasos para instalar y usar MongoDB.', tag:'Drive', url:'https://drive.google.com/file/d/1xMoVcJuIly3iG6UfTNOKDTQxchx_Wvmf/view?usp=drive_link'},
+
+    // Podcast
+    {cat:'podcast', title:'Internet de las Cosas (IoT)', desc:'Conversación sobre aplicaciones reales del IoT.', tag:'Drive', url:'https://drive.google.com/file/d/1yZWrjYPMlfGlmjAoUD1WuN9r_fxb1zeq/view?usp=sharing'},
+    {cat:'podcast', title:'Ciberseguridad', desc:'Amenazas frecuentes y cómo protegerse en entornos digitales.', tag:'Drive', url:'https://drive.google.com/file/d/1_ux5pHKZD4p2McrmrthkhwEXGnozij2E/view?usp=drive_link'},
+    {cat:'podcast', title:'Código Abierto', desc:'Qué es el software libre y por qué importa en la industria.', tag:'Drive', url:'https://drive.google.com/file/d/1YBcM2zN0fEmttbx250LW998P5-rYp3C1/view?usp=drive_link'},
+    {cat:'podcast', title:'Bases de Datos No Relacionales', desc:'Diferencias entre bases de datos SQL y NoSQL.', tag:'Drive', url:'https://drive.google.com/file/d/1fI9OEY0mM4fdlXavZRNI7bN_mSJF6ZUK/view?usp=drive_link'},
+    {cat:'podcast', title:'Ética en la Práctica Profesional', desc:'Dilemas éticos que enfrenta un ingeniero de sistemas en ejercicio.', tag:'Drive', url:'https://drive.google.com/file/d/1Day4rtExnX6qn47VbYICJssqi7loytuI/view?usp=drive_link'},
+    {cat:'podcast', title:'Herencia en POO', desc:'El concepto de herencia dentro de la programación orientada a objetos.', tag:'Drive', url:'https://drive.google.com/file/d/19p1-Hcx9JQlwMcZ-NsmFl896oS-MHI59/view?usp=drive_link'},
+    {cat:'podcast', title:'IA y Cloud Computing', desc:'Cómo se combinan la inteligencia artificial y la computación en la nube.', tag:'Drive', url:'https://drive.google.com/file/d/1vDPIha7gUlLysxSHGS_8SsdQ18RisJjS/view?usp=drive_link'},
+    {cat:'podcast', title:'Linux', desc:'Por qué usar Linux y qué lo diferencia de otros sistemas operativos.', tag:'Drive', url:'https://drive.google.com/file/d/1nTfDcLC8MfRfBovdHJV3LjT-wtGALB7e/view?usp=drive_link'},
+  ];
+
+  function cardHTML(r){
+    return `<a class="card" href="${r.url}" target="_blank" rel="noopener" data-title="${r.title.toLowerCase()}">
+      <div class="card-top">
+        <span class="tag">${r.tag}</span>
+      </div>
+      <h3>${r.title}</h3>
+      <p class="desc">${r.desc}</p>
+      <span class="go">Ver recurso ${iconGo}</span>
+    </a>`;
+  }
+
+  const grids = {ova:document.getElementById('grid-ova'), video:document.getElementById('grid-video'), podcast:document.getElementById('grid-podcast')};
+  ['ova','video','podcast'].forEach(cat=>{
+    grids[cat].innerHTML = resources.filter(r=>r.cat===cat).map(cardHTML).join('');
+  });
+
+  // Tabs: show/hide whole sections
+  const tabs = document.querySelectorAll('.tab');
+  const sections = document.querySelectorAll('section.category');
+  tabs.forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      tabs.forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      const cat = tab.dataset.cat;
+      sections.forEach(sec=>{
+        sec.style.display = (cat==='todos' || sec.dataset.cat===cat) ? '' : 'none';
+      });
+    });
+  });
+
+  document.querySelectorAll('.stat').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.getElementById(btn.dataset.jump).scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+  // Search filter across visible cards
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', ()=>{
+    const q = searchInput.value.trim().toLowerCase();
+    ['ova','video','podcast'].forEach(cat=>{
+      const cards = grids[cat].querySelectorAll('.card');
+      let visible = 0;
+      cards.forEach(c=>{
+        const match = c.dataset.title.includes(q);
+        c.style.display = match ? '' : 'none';
+        if(match) visible++;
+      });
+      document.getElementById('empty-'+cat).style.display = (visible===0 && q!=='') ? 'block' : 'none';
+    });
+  });
+
+  // Animated counters
+  const counters = document.querySelectorAll('.num');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const runCount = (el)=>{
+    const target = parseInt(el.dataset.count, 10);
+    if(reduceMotion){ el.textContent = target; return; }
+    let start = 0;
+    const duration = 900;
+    const startTime = performance.now();
+    function step(now){
+      const progress = Math.min((now-startTime)/duration, 1);
+      el.textContent = Math.round(progress*target);
+      if(progress<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  };
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        runCount(entry.target);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.5});
+  counters.forEach(c=>obs.observe(c));
+
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', ()=>{
+    const open = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', open);
+  });
+  navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>navLinks.classList.remove('open')));
+</script>
+
+</body>
+</html>
